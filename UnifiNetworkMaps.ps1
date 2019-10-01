@@ -45,8 +45,8 @@ $certCallback = @"
 # UniFi Details
 $UnifiBaseUri = "https://[IP or FQDN here]:8443"
 $UnifiCredentials = @{
-    username = "[Username here]"
-    password = "[Username here]"
+    username = "[Unifi Username here]"
+    password = "[Unifi Password here]"
     remember = $true
 } | ConvertTo-Json
  
