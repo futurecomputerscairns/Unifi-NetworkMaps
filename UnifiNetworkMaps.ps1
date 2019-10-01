@@ -69,43 +69,33 @@ $unifiDevices = Invoke-RestMethod -Uri "$UnifiBaseUri/s/$($site.name)/stat/devic
 $UAPs = $unifiDevices.data | Where-Object {$_.type -contains "uap"}
 
 $Accesspoints = @()
-foreach ($UAP in $UAPs){
-                
-                
-                $object = New-Object psobject
-                $object | Add-Member -MemberType NoteProperty -Name APName -Value $UAP.name
-                $object | Add-Member -MemberType NoteProperty -Name APIP -Value $UAP.ip
-                $object | Add-Member -MemberType NoteProperty -Name APMAC -Value $UAP.mac
-                $object | Add-Member -MemberType NoteProperty -Name APUplink -Value $UAP.last_uplink.uplink_mac
-
-                $Accesspoints += $object
+$Accesspoints = foreach ($UAP in $UAPs){
+    [PSCustomObject] @{
+        APName = $UAP.name
+        APIP = $UAP.ip
+        APMAC = $UAP.MAC
+        APUplink = $UAP.last_uplink.uplink_mac
+    }
 }
-
 #switches
 
 $USWs = $unifiDevices.data | Where-Object {$_.type -contains "usw"}
 $switches = @()
-foreach ($USW in $USWs){
-                
-                
-                $object = New-Object psobject
-                $object | Add-Member -MemberType NoteProperty -Name SwitchName -Value $USW.name
-                $object | Add-Member -MemberType NoteProperty -Name SwitchIP -Value $USW.ip
-                $object | Add-Member -MemberType NoteProperty -Name SwitchMAC -Value $USW.mac
-
-                $switches += $object
+$switches = foreach ($USW in $USWs){
+    [PSCustomObject] @{
+        SwitchName = $USW.name
+        SwitchIP = $USW.ip
+        SwitchMAC = $USW.MAC
+    }
 }
 
 #USG
 
 $USG = $unifiDevices.data | Where-Object {$_.type -contains "ugw"}
 
-
-
 # currently connected users
 
 $users = Invoke-RestMethod -Uri "$UnifiBaseUri/s/$($site.name)/stat/sta" -WebSession $websession
-
 
 # Is connected via LAN
 
