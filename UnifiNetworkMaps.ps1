@@ -106,7 +106,6 @@ $USG = $unifiDevices.data | Where-Object {$_.type -contains "ugw"}
 
 $users = Invoke-RestMethod -Uri "$UnifiBaseUri/s/$($site.name)/stat/sta" -WebSession $websession
 
-$wifi = Invoke-RestMethod -Uri "$UnifiBaseUri/s/$($site.name)/rest/wlanconf" -WebSession $websession
 
 # Is connected via LAN
 
