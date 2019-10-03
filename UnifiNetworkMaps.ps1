@@ -68,7 +68,6 @@ $unifiDevices = Invoke-RestMethod -Uri "$UnifiBaseUri/s/$($site.name)/stat/devic
 
 $UAPs = $unifiDevices.data | Where-Object {$_.type -contains "uap"}
 
-$Accesspoints = @()
 $Accesspoints = foreach ($UAP in $UAPs){
     [PSCustomObject] @{
         APName = $UAP.name
@@ -80,8 +79,8 @@ $Accesspoints = foreach ($UAP in $UAPs){
 #switches
 
 $USWs = $unifiDevices.data | Where-Object {$_.type -contains "usw"}
-$switches = @()
-$switches = foreach ($USW in $USWs){
+
+[Array] $switches = foreach ($USW in $USWs){
     [PSCustomObject] @{
         SwitchName = $USW.name
         SwitchIP = $USW.ip
